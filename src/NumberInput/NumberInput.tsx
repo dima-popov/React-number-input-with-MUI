@@ -4,6 +4,7 @@ import InputAdornment from "@mui/material/InputAdornment";
 import IconButton from "@mui/material/IconButton";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import React, { FC } from "react";
 
 const CustomTextField = styled(TextField)({
   "& input:valid:focus  + div + fieldset": {
@@ -30,13 +31,16 @@ const CustomTextField = styled(TextField)({
 });
 
 function firValue(
-  value: string,
+  val: string,
   precision: number | null,
   min: number | null,
-  max: number | null
+  max: number | null,
+  prefix: string = "",
+  suffix: string = ""
 ) {
+  let value = val.replace(prefix, "").replace(suffix, "");
   let result: string;
-  let parts = value.split(".");
+  const parts = value.split(".");
   let sign = value[0];
   let part_one = parts[0].replace(/\D/gi, "");
   if (parts.length > 1 && part_one === "") {
@@ -61,7 +65,7 @@ function firValue(
       result = sign + part_one;
     }
   }
-  if (Number.isInteger(precision)) {
+  if (Number.isInteger(precision) && precision !== null) {
     const fraction = result.split(".");
     const result_fixed = Number(result).toFixed(precision);
     const result_fixed_fraction = result_fixed.split(".");
@@ -95,7 +99,7 @@ function firValue(
   return result;
 }
 
-function NumberInput(props: {
+interface NumberInputProps {
   onChange: any;
   value: number | string;
   onBlur?: any;
@@ -110,8 +114,12 @@ function NumberInput(props: {
   error?: boolean;
   helperText?: string;
   disabled?: boolean;
-  "data-testid": string;
-}) {
+  prefix?: string;
+  suffix?: string;
+  "data-testid"?: string;
+}
+
+const NumberInput: FC<NumberInputProps> = ({ ...props }) => {
   return (
     <CustomTextField
       disabled={props.disabled === true}
@@ -120,7 +128,9 @@ function NumberInput(props: {
           e.target.value,
           props.precision !== undefined ? props.precision : null,
           props.min !== undefined ? props.min : null,
-          props.max !== undefined ? props.max : null
+          props.max !== undefined ? props.max : null,
+          props.prefix,
+          props.suffix
         );
         if (props.onChange) {
           props.onChange({ target: { value: result, name: props.name } });
@@ -129,7 +139,13 @@ function NumberInput(props: {
       onBlur={props.onBlur || null}
       name={props.name || ""}
       label=""
-      value={props.value}
+      value={
+        String(props.value).length === 0
+          ? props.value
+          : (props.prefix ? props.prefix : "") +
+            props.value +
+            (props.suffix ? props.suffix : "")
+      }
       size="small"
       InputLabelProps={{
         shrink: true,
@@ -183,7 +199,9 @@ function NumberInput(props: {
                             ? props.precision
                             : null,
                           props.min !== undefined ? props.min : null,
-                          props.max !== undefined ? props.max : null
+                          props.max !== undefined ? props.max : null,
+                          props.prefix,
+                          props.suffix
                         );
                         props.onChange({
                           target: {
@@ -200,7 +218,9 @@ function NumberInput(props: {
                             ? props.precision
                             : null,
                           props.min !== undefined ? props.min : null,
-                          props.max !== undefined ? props.max : null
+                          props.max !== undefined ? props.max : null,
+                          props.prefix,
+                          props.suffix
                         );
                         props.onChange({
                           target: {
@@ -242,7 +262,9 @@ function NumberInput(props: {
                             ? props.precision
                             : null,
                           props.min !== undefined ? props.min : null,
-                          props.max !== undefined ? props.max : null
+                          props.max !== undefined ? props.max : null,
+                          props.prefix,
+                          props.suffix
                         );
                         props.onChange({
                           target: {
@@ -259,7 +281,9 @@ function NumberInput(props: {
                             ? props.precision
                             : null,
                           props.min !== undefined ? props.min : null,
-                          props.max !== undefined ? props.max : null
+                          props.max !== undefined ? props.max : null,
+                          props.prefix,
+                          props.suffix
                         );
                         props.onChange({
                           target: {
@@ -290,6 +314,6 @@ function NumberInput(props: {
       }}
     />
   );
-}
+};
 
 export default NumberInput;
