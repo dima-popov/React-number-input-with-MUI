@@ -117,6 +117,7 @@ interface NumberInputProps {
   prefix?: string;
   suffix?: string;
   "data-testid"?: string;
+  buttons?: boolean;
 }
 
 const NumberInput: FC<NumberInputProps> = ({ ...props }) => {
@@ -167,151 +168,157 @@ const NumberInput: FC<NumberInputProps> = ({ ...props }) => {
       }}
       error={props.error}
       helperText={props.helperText}
-      InputProps={{
-        endAdornment: (
-          <InputAdornment
-            position="end"
-            sx={
-              props.disabled === true
-                ? { display: "none" }
-                : { lineHeight: "14px" }
-            }
-          >
-            <div>
-              <div>
-                <IconButton
-                  onBlur={() => {
-                    if (props.onBlur) {
-                      props.onBlur({
-                        target: { value: props.value, name: props.name },
-                      });
-                    }
-                  }}
-                  disabled={props.disabled === true}
-                  onClick={(e) => {
-                    e.stopPropagation();
+      InputProps={
+        props.buttons === false
+          ? {}
+          : {
+              endAdornment: (
+                <InputAdornment
+                  position="end"
+                  sx={
+                    props.disabled === true
+                      ? { display: "none" }
+                      : { lineHeight: "14px" }
+                  }
+                >
+                  <div>
+                    <div>
+                      <IconButton
+                        onBlur={() => {
+                          if (props.onBlur) {
+                            props.onBlur({
+                              target: { value: props.value, name: props.name },
+                            });
+                          }
+                        }}
+                        disabled={props.disabled === true}
+                        onClick={(e) => {
+                          e.stopPropagation();
 
-                    if (props.step) {
-                      if (props.onChange) {
-                        const result = firValue(
-                          String(Number(props.value) + props.step),
-                          props.precision !== undefined
-                            ? props.precision
-                            : null,
-                          props.min !== undefined ? props.min : null,
-                          props.max !== undefined ? props.max : null,
-                          props.prefix,
-                          props.suffix
-                        );
-                        props.onChange({
-                          target: {
-                            value: result,
-                            name: props.name,
-                          },
-                        });
-                      }
-                    } else {
-                      if (props.onChange) {
-                        const result = firValue(
-                          String(Number(props.value) + 1),
-                          props.precision !== undefined
-                            ? props.precision
-                            : null,
-                          props.min !== undefined ? props.min : null,
-                          props.max !== undefined ? props.max : null,
-                          props.prefix,
-                          props.suffix
-                        );
-                        props.onChange({
-                          target: {
-                            value: result,
-                            name: props.name,
-                          },
-                        });
-                      }
-                    }
-                  }}
-                  size="small"
-                  sx={{
-                    width: "10px",
-                    height: "10px",
-                    margin: 0,
-                    padding: "1px 4px !important",
-                  }}
-                >
-                  <KeyboardArrowUpIcon sx={{ width: "18px", height: "18px" }} />
-                </IconButton>
-              </div>
-              <div>
-                <IconButton
-                  onBlur={() => {
-                    if (props.onBlur) {
-                      props.onBlur({
-                        target: { value: props.value, name: props.name },
-                      });
-                    }
-                  }}
-                  disabled={props.disabled === true}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    if (props.step) {
-                      if (props.onChange) {
-                        const result = firValue(
-                          String(Number(props.value) - props.step),
-                          props.precision !== undefined
-                            ? props.precision
-                            : null,
-                          props.min !== undefined ? props.min : null,
-                          props.max !== undefined ? props.max : null,
-                          props.prefix,
-                          props.suffix
-                        );
-                        props.onChange({
-                          target: {
-                            value: result,
-                            name: props.name,
-                          },
-                        });
-                      }
-                    } else {
-                      if (props.onChange) {
-                        const result = firValue(
-                          String(Number(props.value) - 1),
-                          props.precision !== undefined
-                            ? props.precision
-                            : null,
-                          props.min !== undefined ? props.min : null,
-                          props.max !== undefined ? props.max : null,
-                          props.prefix,
-                          props.suffix
-                        );
-                        props.onChange({
-                          target: {
-                            value: result,
-                            name: props.name,
-                          },
-                        });
-                      }
-                    }
-                  }}
-                  size="small"
-                  sx={{
-                    width: "10px",
-                    height: "10px",
-                    margin: 0,
-                    padding: "1px 4px !important",
-                  }}
-                >
-                  {" "}
-                  <KeyboardArrowDownIcon
-                    sx={{ width: "18px", height: "18px" }}
-                  />
-                </IconButton>
-              </div>
-            </div>
-          </InputAdornment>
-        ),
-      }}
+                          if (props.step) {
+                            if (props.onChange) {
+                              const result = firValue(
+                                String(Number(props.value) + props.step),
+                                props.precision !== undefined
+                                  ? props.precision
+                                  : null,
+                                props.min !== undefined ? props.min : null,
+                                props.max !== undefined ? props.max : null,
+                                props.prefix,
+                                props.suffix
+                              );
+                              props.onChange({
+                                target: {
+                                  value: result,
+                                  name: props.name,
+                                },
+                              });
+                            }
+                          } else {
+                            if (props.onChange) {
+                              const result = firValue(
+                                String(Number(props.value) + 1),
+                                props.precision !== undefined
+                                  ? props.precision
+                                  : null,
+                                props.min !== undefined ? props.min : null,
+                                props.max !== undefined ? props.max : null,
+                                props.prefix,
+                                props.suffix
+                              );
+                              props.onChange({
+                                target: {
+                                  value: result,
+                                  name: props.name,
+                                },
+                              });
+                            }
+                          }
+                        }}
+                        size="small"
+                        sx={{
+                          width: "10px",
+                          height: "10px",
+                          margin: 0,
+                          padding: "1px 4px !important",
+                        }}
+                      >
+                        <KeyboardArrowUpIcon
+                          sx={{ width: "18px", height: "18px" }}
+                        />
+                      </IconButton>
+                    </div>
+                    <div>
+                      <IconButton
+                        onBlur={() => {
+                          if (props.onBlur) {
+                            props.onBlur({
+                              target: { value: props.value, name: props.name },
+                            });
+                          }
+                        }}
+                        disabled={props.disabled === true}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          if (props.step) {
+                            if (props.onChange) {
+                              const result = firValue(
+                                String(Number(props.value) - props.step),
+                                props.precision !== undefined
+                                  ? props.precision
+                                  : null,
+                                props.min !== undefined ? props.min : null,
+                                props.max !== undefined ? props.max : null,
+                                props.prefix,
+                                props.suffix
+                              );
+                              props.onChange({
+                                target: {
+                                  value: result,
+                                  name: props.name,
+                                },
+                              });
+                            }
+                          } else {
+                            if (props.onChange) {
+                              const result = firValue(
+                                String(Number(props.value) - 1),
+                                props.precision !== undefined
+                                  ? props.precision
+                                  : null,
+                                props.min !== undefined ? props.min : null,
+                                props.max !== undefined ? props.max : null,
+                                props.prefix,
+                                props.suffix
+                              );
+                              props.onChange({
+                                target: {
+                                  value: result,
+                                  name: props.name,
+                                },
+                              });
+                            }
+                          }
+                        }}
+                        size="small"
+                        sx={{
+                          width: "10px",
+                          height: "10px",
+                          margin: 0,
+                          padding: "1px 4px !important",
+                        }}
+                      >
+                        {" "}
+                        <KeyboardArrowDownIcon
+                          sx={{ width: "18px", height: "18px" }}
+                        />
+                      </IconButton>
+                    </div>
+                  </div>
+                </InputAdornment>
+              ),
+            }
+      }
     />
   );
 };
