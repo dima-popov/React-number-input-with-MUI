@@ -36,12 +36,15 @@ function firValue(
   min: number | null,
   max: number | null,
   prefix: string = "",
-  suffix: string = ""
+  suffix: string = "",
+  length: number = 30
 ) {
   let value = val.replace(prefix, "").replace(suffix, "");
   let result: string;
   const parts = value.split(".");
   let sign = value[0];
+  value =
+    (sign === "-" ? "-" : "") + String(value.replace("-", "").slice(0, length));
   let part_one = parts[0].replace(/\D/gi, "");
   if (parts.length > 1 && part_one === "") {
     part_one = "0";
@@ -131,7 +134,8 @@ const NumberInput: FC<NumberInputProps> = ({ ...props }) => {
           props.min !== undefined ? props.min : null,
           props.max !== undefined ? props.max : null,
           props.prefix,
-          props.suffix
+          props.suffix,
+          props.length
         );
         if (props.onChange) {
           props.onChange({ target: { value: result, name: props.name } });
