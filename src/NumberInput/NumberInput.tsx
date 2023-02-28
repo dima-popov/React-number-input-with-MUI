@@ -41,10 +41,10 @@ function firValue(
 ) {
   let value = val.replace(prefix, "").replace(suffix, "");
   let result: string;
-  const parts = value.split(".");
   let sign = value[0];
   value =
     (sign === "-" ? "-" : "") + String(value.replace("-", "").slice(0, length));
+  const parts = value.split(".");
   let part_one = parts[0].replace(/\D/gi, "");
   if (parts.length > 1 && part_one === "") {
     part_one = "0";
@@ -157,7 +157,7 @@ const NumberInput: FC<NumberInputProps> = ({ ...props }) => {
       }}
       inputProps={{
         "data-testid": props["data-testid"],
-        maxLength: props.length || 50,
+        maxLength: props.length ? props.length + 1 : 30,
         style: {
           padding: ".2rem .6rem",
           fontSize: ".875rem",
