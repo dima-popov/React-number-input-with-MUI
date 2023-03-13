@@ -113,7 +113,7 @@ interface NumberInputProps {
   min?: number;
   length?: number;
   sx?: { [key: string]: string };
-  inputStyle?: { [key: string]: string };
+  inputStyle?: { [key: string]: any };
   error?: boolean;
   helperText?: string;
   disabled?: boolean;
