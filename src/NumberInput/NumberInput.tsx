@@ -7,6 +7,9 @@ import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import React, { FC } from "react";
 
 const CustomTextField = styled(TextField)({
+  backgroundColor: "white",
+  borderRadius: "4px",
+  overflow: "hidden",
   "& input:valid:focus  + div + fieldset": {
     borderWidth: 1,
     borderColor: "#5ea3cb",
