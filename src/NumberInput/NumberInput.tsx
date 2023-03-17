@@ -145,8 +145,7 @@ const NumberInput: FC<NumberInputProps> = ({ ...props }) => {
         }
       }}
       onBlur={props.onBlur || null}
-      name={props.name || ""}
-      label=""
+      name={props.name}
       value={
         String(props.value).length === 0
           ? props.value
